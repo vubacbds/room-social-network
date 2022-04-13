@@ -4,8 +4,8 @@ import { GitlabFilled, FileDoneOutlined, NotificationOutlined, BellOutlined,
 import React, { Suspense } from "react";
 import { Routes, Route, Link, useParams, Outlet, useNavigate } from 'react-router-dom';
 import { useState, useContext } from 'react'
-import '../index.scss';
-import {DataContext} from './DataContext'
+import '../../index.scss';
+import {DataContext} from '../../../../utils/DataContext'
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;

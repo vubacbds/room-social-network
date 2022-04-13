@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import '../index.scss';
+// import '../../index.scss';
 import { Table, Input, InputNumber, Popconfirm, Form, 
         Typography, Space, Row, Col, Button, Popover, Radio } from 'antd';
 import { AudioOutlined, SearchOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-import {DataContext} from './DataContext'
+import {DataContext} from '../../../../utils/DataContext'
 
 const EditableCell = ({
   editing,

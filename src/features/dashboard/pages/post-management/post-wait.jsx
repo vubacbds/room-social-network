@@ -3,7 +3,7 @@ import Highlighter from 'react-highlight-words';
 import Search from 'antd/lib/transfer/search';
 import { useEffect, useState, useContext } from 'react';
 import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
-import { DataContext } from '../DataContext'
+import { DataContext } from '../../../../utils/DataContext'
 
 function PostWait() {
     const dataSource = useContext(DataContext).dataChoDuyet

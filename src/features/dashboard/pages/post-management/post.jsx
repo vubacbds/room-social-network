@@ -2,7 +2,7 @@ import { Typography, Carousel, Col, Checkbox, Button, Row, Popover, Table, Popco
 import Highlighter from 'react-highlight-words';
 import { useEffect, useState, useContext } from 'react';
 import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
-import {DataContext} from '../DataContext'
+import {DataContext} from '../../../../utils/DataContext'
 
 function Post() {
     const dataSource = useContext(DataContext).dataDaDang

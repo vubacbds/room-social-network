@@ -1,7 +1,7 @@
 import { Switch } from "antd"
 import { useEffect, useState } from "react"
-import PostWait from './PostWait'
-import Post from './Post'
+import PostWait from './post-wait'
+import Post from './post'
 
 function PostManagement() {
     const [trueFalse, setTrueFalse] = useState(true)

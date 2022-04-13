@@ -1,8 +1,8 @@
 import { Row, Col, Divider } from 'antd';
 import { BarChartOutlined } from '@ant-design/icons';
-import '../index.scss';
+import '../../index.scss';
 import { useContext } from 'react';
-import {DataContext} from './DataContext'
+import {DataContext} from '../../../../utils/DataContext'
 
 function Home() {
     const dataSourcePost = useContext(DataContext).dataSource
