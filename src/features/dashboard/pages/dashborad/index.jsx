@@ -31,7 +31,7 @@ function AdminPage() {
                   </span>
                   &ensp; &nbsp;
                   <span className="avatar-item">
-                    <Popover content={<Link to="quan-ly-tin-dang">Có {dataSource.length} tin đăng mới đang chờ duyệt</Link>} title="Thông báo" trigger="click">
+                    <Popover content={<Link to="post-management">Có {dataSource.length} tin đăng mới đang chờ duyệt</Link>} title="Thông báo" trigger="click">
                       <Badge count={dataSource.length}>
                           <a><Avatar shape="square" icon={<BellOutlined />} style={{background: '#0f4d92', fontSize: 24}}/></a>
                       </Badge>
@@ -47,8 +47,8 @@ function AdminPage() {
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <Menu.Item key="1" icon={<GitlabFilled />}><Link to="home" onClick={() => setCrumb({})}>ADMIN</Link></Menu.Item>
-            <Menu.Item key="2" icon={<UsergroupAddOutlined />}><Link to="quan-ly-nguoi-dung" 
+            <Menu.Item key="1" icon={<GitlabFilled />}><Link to="dashboard" onClick={() => setCrumb({})}>ADMIN</Link></Menu.Item>
+            <Menu.Item key="2" icon={<UsergroupAddOutlined />}><Link to="user-management" 
               onClick={() => 
                 setCrumb({
                   cha: 'Quản lý người dùng'
@@ -56,7 +56,7 @@ function AdminPage() {
               }
             >Quản lý người dùng</Link></Menu.Item>
              
-            <Menu.Item key="3"icon={<FileDoneOutlined />}><Link to="quan-ly-tin-dang" 
+            <Menu.Item key="3"icon={<FileDoneOutlined />}><Link to="post-management" 
                 onClick={() => {
                   setCrumb({
                     cha: 'Quản lý tin đăng'
@@ -67,8 +67,8 @@ function AdminPage() {
             </Menu.Item>
               
             <SubMenu key="sub2" icon={<LaptopOutlined />} title="Khác">
-              <Menu.Item key="4"><Link to="giao-dien">Giao diện</Link></Menu.Item>
-              <Menu.Item key="5"><Link to="tu-khoa-hot">Từ khóa hot</Link></Menu.Item>
+              <Menu.Item key="4"><Link to="interface">Giao diện</Link></Menu.Item>
+              <Menu.Item key="5"><Link to="key-words">Từ khóa hot</Link></Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
