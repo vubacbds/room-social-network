@@ -1,10 +1,7 @@
-.slider{
+.slider {
     position: relative;
     margin: auto;
     padding: 15px;
-
-
-
     border-radius: 4px;
     z-index: 0;
     margin-top: 5px;

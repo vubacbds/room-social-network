@@ -1,5 +1,5 @@
 import React from "react";
-import '../index.css';
+import '../../index.css';
 import { PhoneOutlined,MailOutlined, FacebookOutlined, InstagramOutlined, TwitterOutlined } from '@ant-design/icons';
 
 class Footer extends React.Component{

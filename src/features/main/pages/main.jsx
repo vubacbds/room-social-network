@@ -12,7 +12,7 @@ const { Header, Content, Footer } = Layout;
 
 function Main() {
   return (
-    <div></div>
+    <div>Trang chủ</div>
   );
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import './index.css';
+import '../index.css';
 import { Button } from 'antd';
 class Header extends React.Component{
     render(){

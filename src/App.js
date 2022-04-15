@@ -8,6 +8,7 @@ import NotFound from "./components/not-found";
 //Lazy loading
 const HomePage = React.lazy(() => import("./features/main"));
 const DashBoard = React.lazy(() => import("./features/dashboard"));
+const Login = React.lazy(() => import("./components/login"));
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
             <Route path="/" element={<Navigate to="/room-social-network" replace />} />
             <Route path="/room-social-network/*" element={<HomePage/>} />
             <Route path="/admin-management/*" element={<DashBoard/>} />
+            <Route path="/login/*" element={<Login/>} />
             <Route path="*" element={<NotFound/>} />
           </Routes>
         </BrowserRouter>

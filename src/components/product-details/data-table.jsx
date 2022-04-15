@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './style/data_table.css';
+import './style/data-table.scss';
 class Mockdata extends Component {
   constructor(props) {
     super(props);

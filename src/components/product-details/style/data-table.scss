@@ -1,0 +1,29 @@
+.tabledata {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 20px;
+}
+
+.tabledata td,
+.tabledata th {
+  width: 900px;
+  border: 1px solid rgb(12, 12, 12);
+  padding: 8px;
+}
+
+.tabledata tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tabledata tr:hover {
+  background-color: #ddd;
+}
+
+.tabledata th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}

@@ -1,12 +1,12 @@
 import React from 'react';
-import 'antd/dist/antd.css';
-import '../pages/product_detail.css';
-import Involve from '../../../components/product_details/involve';
-import Mockdata from '../../../components/product_details/data_table';
-import NoteCmt from '../../../components/product_details/note_cmt';
-import Slide from '../../../components/product_details/slider';
-import Head from '../../../components/Hearder';
-import Futer from '../../../components/Footer';
+// import 'antd/dist/antd.scss';
+import './index.scss';
+import Involve from '../../../../components/product-details/involve';
+import Mockdata from '../../../../components/product-details/data-table';
+import NoteCmt from '../../../../components/product-details/note-cmt';
+import Slide from '../../../../components/product-details/slider';
+import Head from '../../../../components/header';
+import Futer from '../../../../components/footer';
 function Product_detail() {
 
 
