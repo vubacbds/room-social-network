@@ -34,7 +34,7 @@ const roomDetail = {
   ]
 };
 const dataCarousel = roomDetail.images.map(item =>{
-  return {image: item};
+  return {image: item, key: Math.random()};
 });
 function RoomDetail() {
   return (

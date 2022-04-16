@@ -42,16 +42,19 @@ const items = [
 
 const images = [
   {
+    key: 1,
     image: 'https://sncdn.com/imagecache/db/id/11587/6783564a.jpg',
     title: 'Phòng trọ nhanh cho sinh viên',
     desc: 'Chúng tôi tự tin sẽ mang cho bạn 1 cảm giác tuyệt vời'
   },
   {
+    key: 2,
     image: 'https://images.trvl-media.com/hotels/1000000/10000/5400/5363/d44a63cd_z.jpg',
     title: 'Rất vui được phục vụ bạn',
     desc: 'Chúng tôi tự tin sẽ mang cho bạn 1 cảm giác tuyệt vời'
   },
   {
+    key: 3,
     image: 'https://content.r9cdn.net/himg/f5/94/af/leonardo-178075906-Hyatt-Ziva-Los-Cabos-Club-Ocean-View-Master-Double_O-343218.jpg',
     title: 'Chúc ngày mới tốt lành',
     desc: 'Chúng tôi tự tin sẽ mang cho bạn 1 cảm giác tuyệt vời'

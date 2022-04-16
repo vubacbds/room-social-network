@@ -7,7 +7,7 @@ function AppCarousel(props) {
         <Carousel fade >
             {data.map(item => {
                 return (
-                    <Carousel.Item>
+                    <Carousel.Item key={item.key}>
                         <img
                             className="d-block w-100"
                             src={item.image}
