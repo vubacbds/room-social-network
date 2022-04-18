@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext } from 'react'
-
+import { Rate } from 'antd';
 export const DataContext = createContext()
 const dataPost = [
     {
@@ -14,7 +14,9 @@ const dataPost = [
       img2: 'https://xaynhatro.net/wp-content/uploads/2018/06/f70f05c965f280acd9e3.jpg',
       img3: 'https://bandon.vn/uploads/thiet-ke-nha-tro-dep-2020-bandon-11.jpg',
       img4: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkpKimrec6en61zfIC1FOLvdpSRAf5dbYgqQ&usqp=CAU',
-      trangthai: 0
+      trangthai: 0,
+      danhgia:<Rate defaultValue={3}/>,
+      dientich:'20m2'
     },
     {
       id: 2,
