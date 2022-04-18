@@ -8,8 +8,7 @@ import image4 from '../../../../assets/images/easy-customise.jpg';
 import image5 from '../../../../assets/images/unlimited-features.jpg';
 import image6 from '../../../../assets/images/advanced-option.jpg';
 import RoomProvince from '../room-province';
-import { useContext } from 'react';
-import { DataContext } from '../../../../utils/DataContext';
+
 
 const items = [
   {
