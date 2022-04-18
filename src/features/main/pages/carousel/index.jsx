@@ -4,10 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 function AppCarousel(props) {
     const {data} = props;
     return (
-        <Carousel fade >
+        <Carousel  fade>
             {data.map(item => {
                 return (
-                    <Carousel.Item key={item.key}>
+                    <Carousel.Item key={item.key} >
                         <img
                             className="d-block w-100"
                             src={item.image}

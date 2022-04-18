@@ -24,11 +24,11 @@ function MainLayout() {
         </div>
         <div className="mobileHidden">
           <Anchor targetOffset="65">
-            <Link href="/" title="Home" />
-            <Link href="/about" title="About" />
-            <Link href="/detail" title="Features" />
-            <Link href="/works" title="How it works" />
-            <Link href="/faq" title="FAQ" />
+            <Link href="/" title="Trang chủ" />
+            <Link href="/about" title="Giới thiệu" />
+            <Link href="/detail" title="Thông tin phòng trọ" />
+            <Link href="/works" title="Liên hệ" />
+            <Link href="/login/"  title="Đăng nhập" />
             <Link href="/pricing" title="Pricing" />
             <Link href="/contact" title="Contact" />
           </Anchor>

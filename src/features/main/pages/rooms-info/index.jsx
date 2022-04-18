@@ -4,10 +4,11 @@ import { Card } from 'antd';
 const { Meta } = Card;
 
 function RoomsInfo(props) {
+  
   var items = props.data;
   const roomsInfo = items.map((item) => {
     return (
-      <Col xs={{ span: 24 }} sm={{ span: 12 }} md={{ span: 8 }} key={item.key}>
+      <Col md={{ span: 8 }} key={item.key} >
         <a href="/room-social-network/detail/facd0009as9fffff-feidws456">
           <Card
             hoverable
@@ -15,6 +16,7 @@ function RoomsInfo(props) {
           >
             <Meta title={item.title} />
             <div>Diện tích: 40m²</div>
+            <div>Địa chỉ: {item.diachi}</div>
             <div>Đánh giá: ⭐️⭐️⭐️</div>
             <div>1.200.000đ/tháng</div>
           </Card>
@@ -28,7 +30,7 @@ function RoomsInfo(props) {
         <h2>{props.title}</h2>
         {props.desc ? <p>{props.desc}</p> : <></>}
       </div>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[16, 16]} >
         {roomsInfo}
       </Row>
     </div>

@@ -7,11 +7,15 @@ import image3 from '../../../../assets/images/great-support.jpg';
 import image4 from '../../../../assets/images/easy-customise.jpg';
 import image5 from '../../../../assets/images/unlimited-features.jpg';
 import image6 from '../../../../assets/images/advanced-option.jpg';
+import RoomProvince from '../room-province';
+
+
 const items = [
   {
     key: '1',
-    title: 'Modern Design',
-    image: image1
+    title: 'Clean and Elegant',
+    image: image1,
+    diachi:"Quy Nhon"
   },
   {
     key: '2',
@@ -50,7 +54,7 @@ const images = [
   {
     key: 2,
     image: 'https://images.trvl-media.com/hotels/1000000/10000/5400/5363/d44a63cd_z.jpg',
-    title: 'Rất vui được phục vụ bạn',
+    title: 'Rất vui được phục vụ bạn', 
     desc: 'Chúng tôi tự tin sẽ mang cho bạn 1 cảm giác tuyệt vời'
   },
   {
@@ -67,6 +71,7 @@ function Home() {
       <AppCarousel data={images} />
       <RoomsInfo title="Tin mới đăng" desc="Thông tin các phòng trọ mới đăng" data={items} />
       <RoomsInfo title="Tin nổi bật trong ngày" desc="Thông tin các phòng trọ nổi bật trong ngày" data={items} />
+      <RoomProvince title="Khám phá phòng trọ ở các thành phố lớn" desc="Tìm kiếm phòng trọ trong thành phố lớn và các tỉnh thành liên quan" data ={items}/>
     </div>
   );
 }
