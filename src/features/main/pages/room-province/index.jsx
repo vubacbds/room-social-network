@@ -14,7 +14,8 @@ function  RoomProvince (props){
     //   />
             return (<>
                         <Col span={4} >  
-                            <Image title='Hà Nội' style={{height:260}} src="https://th.bing.com/th/id/R.3a0fd3d194f6d47851604ba6bf83e031?rik=Nj3kmaDB7Q3rmg&pid=ImgRaw&r=0" />
+                            <Image title='Hà Nội' style={{height:260}} 
+                            src="https://live.staticflickr.com/3333/3175831395_7361b4851c_n.jpg" />
                             </Col>  
                         <Col span={4} >
                             <Row >
