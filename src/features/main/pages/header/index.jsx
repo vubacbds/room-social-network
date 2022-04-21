@@ -28,9 +28,10 @@ function MainLayout() {
             <Link href="/about" title="Giới thiệu" />
             <Link href="/detail" title="Thông tin phòng trọ" />
             <Link href="/works" title="Liên hệ" />
-            <Link href="/login/"  title="Đăng nhập" />
+            <Link href="/room-social-network/Login"  title="Đăng nhập" />
             <Link href="/pricing" title="Pricing" />
             <Link href="/contact" title="Contact" />
+            <Link href="/news" title="News" />
           </Anchor>
         </div>
         <div className="mobileVisible">
@@ -51,6 +52,7 @@ function MainLayout() {
               <Link href="/faq" title="FAQ" />
               <Link href="/pricing" title="Pricing" />
               <Link href="/contact" title="Contact" />
+              <Link href="/news" title="News" />
             </Anchor>
           </Drawer>
         </div>
