@@ -1,6 +1,6 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(206, 206, 206);
+    background-color: white;
     
   }
   h3{
@@ -13,22 +13,23 @@ body {
     margin-bottom: 10px;
   }
   fieldset{
-    display: flex;
+    display:flex;
     flex-direction: row;
   }
   input{
-    background-color: rgb(255, 255, 255);
-    border: 1px solid white;
+    background-color: rgb(51, 53, 177);
+    color: white;
+    border: 1px solid rgb(206, 206, 206);
     border-radius: 5px;
     padding: 3px 10px;
     box-sizing: border-box;
   }
   .container{
-    padding: 100px 550px 0px;
-    height: 650px;
+    padding: 100px 400px 0px;
+    height: 400px;
   }
   .register_header{
-    padding-bottom: 30px;
+    padding-bottom: 100px;
   }
   .register_header p{
     font-style: italic;
@@ -71,5 +72,31 @@ body {
     border-radius: 50px;
   }
   .login-1{
-    background-color:azure;
+    background-color:#fafafa;
   }
+
+.modify1 {
+    // margin-left: 40px;
+}
+.modify2 {
+  width:200px;
+}
+.btnsubmit {
+    width:345px;
+    background-color: rgb(51, 53, 177);
+    color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    // box-sizing: border-box;
+}
+.text-right {
+  margin-left: 55px;
+
+}
+
+.qmk {
+  margin-left:70px;
+}
+
+
+
