@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import RoomsInfo from "../rooms-info"
 import AppCarousel from "../carousel"
 import image1 from '../../../../assets/images/modern-design.jpg';
@@ -43,6 +43,7 @@ const items = [
     image: image6
   }
 ];
+
 
 const images = [
   {

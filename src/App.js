@@ -10,23 +10,26 @@ import userService from "./services/userService";
 const HomePage = React.lazy(() => import("./features/main"));
 const DashBoard = React.lazy(() => import("./features/dashboard"));
 const Login = React.lazy(() => import("./components/login"));
+const Regist = React.lazy(() => import("./components/regist"));
+const Profile = React.lazy(() => import("./features/main/pages/profile"));
+
 
 function App() {
-  useEffect(()=>{
-    //test call api login
-    userService.authenticate({
-      "username": "nghiabui",
-      "password": "12345"
-    }).then((res) => {
-      if(res.accessToken){
-        console.log("Token ", res.accessToken);
-        localStorage.setItem("accessToken", res.accessToken);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, []);
+  // useEffect(()=>{
+  //   //test call api login
+  //   userService.authenticate({
+  //     "username": "nghiabui",
+  //     "password": "12345"
+  //   }).then((res) => {
+  //     if(res.accessToken){
+  //       console.log("Token ", res.accessToken);
+  //       localStorage.setItem("accessToken", res.accessToken);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+  // }, []);
   return (
     <div className="app">
       <Suspense
@@ -42,6 +45,8 @@ function App() {
             <Route path="/room-social-network/*" element={<HomePage/>} />
             <Route path="/admin-management/*" element={<DashBoard/>} />
             <Route path="/login/*" element={<Login/>} />
+            <Route path="/regist/*" element={<Regist/>} />
+            <Route path="/profile/:id" element={<Profile />} />
             <Route path="*" element={<NotFound/>} />
           </Routes>
         </BrowserRouter>
