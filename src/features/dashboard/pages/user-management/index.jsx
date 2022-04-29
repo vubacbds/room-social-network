@@ -49,6 +49,7 @@ const UserManagement = () => {
   const reloadDataUser = useContext(DataContext).reloadDataUser
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState('');
+  const [userInfo, setUserInfo] = useState();
   const isEditing = (record) => record.id === editingKey;
   const edit = (record) => {
     form.setFieldsValue({
@@ -66,15 +67,28 @@ const UserManagement = () => {
 
   const save = async (idvao) => {
     try {
+      
       const row = await form.validateFields();
+      console.log(row)
       const newData = [...dataSource];
       const index = newData.findIndex((item) => idvao === item.id);
 
       if (index > -1) {
+        //Sửa trên giao diện
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
         setDataSource(newData);
         setEditingKey('');
+
+        //Sửa trên CSDL
+        userService.getid(idvao)
+          .then(function (response) {
+            //console.log(JSON.stringify(response.data));
+            setUserInfo({response, row, idvao})
+          })
+          .catch(function (error) {
+            console.log(error);
+          })    
       } else {
         newData.push(row);
         setDataSource(newData);
@@ -84,6 +98,20 @@ const UserManagement = () => {
       console.log('Validate Failed:', errInfo);
     }
   };
+
+  useEffect(() => {
+    if(userInfo != null){
+      const userInfoID = {...userInfo.response, ...userInfo.row}
+          console.log(userInfoID)
+          userService.update(userInfo.idvao, userInfoID)
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+  },[userInfo])
 
   const del = (idvao) => {
     userService.delete(idvao)
@@ -230,7 +258,7 @@ const UserManagement = () => {
             filterSearch: false
         },
         {
-          title: 'Tuổi',
+          title: 'Ngày sinh',
           dataIndex: 'birthDate',
           key: 'birthDate',
           editable: true
@@ -251,16 +279,9 @@ const UserManagement = () => {
           // render: (_, record) => {
           //   return <p>{record.quyen==1?'Chủ trọ':'Thường'}</p>
           //   },
-          filters: [
-            {
-                text: 'Chủ trọ',
-                value: 'Chu tro'
+          render: (_, record) => {
+            return <p>{record.role=='0'?'Admin':(record.role=='1' ? 'Chủ trọ' : 'Người thuê')}</p>
             },
-            {
-                text: 'Người thuê',
-                value: 'Nguoi thue'
-            },
-            ],
             onFilter: (value, record) => record.quyen == value,
             filterSearch: false  
         },
@@ -365,7 +386,7 @@ const UserManagement = () => {
               <Button type="primary" onClick={showModal}>
                 Thêm người dùng mới
               </Button>
-              <Modal title="Đăng ký" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+              <Modal title="Đăng ký" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
                 <Regist />
               </Modal>
           </Col>

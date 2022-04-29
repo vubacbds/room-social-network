@@ -63,6 +63,8 @@ function Profile() {
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
+    const [alertMessage, setAlertMessage] = useState(0) 
+
     // const [userInfo, setUserInfo] = useState()
     // console.log(dataSourceUserID)
 
@@ -119,7 +121,7 @@ function Profile() {
   //   });
 
   // }
-  function handleUpdate() {
+  function handleUpdate(newd) {
     var data = {
           "id": dataSourceUserID.id,
           "username": dataSourceUserID.username,
@@ -131,34 +133,48 @@ function Profile() {
           "gender": dataSourceUserID.gender,
           "facebook": dataSourceUserID.facebook,
           "avatarUrl": dataSourceUserID.avatarUrl,
-          "birthDate": moment(dataSourceUserID.birthDate)
+          "birthDate": moment(dataSourceUserID.birthDate),
+          ...newd
         };
         
       userService.update(dataSourceUserID.id, data)
     .then(function (response) {
-      console.log(response.data);
+      // console.log(response.data);
+      setAlertMessage(1)
+      setTimeout(() => setAlertMessage(0),4000)
     })
     .catch(function (error) {
       console.log(error);
+      setAlertMessage(2)
     });
   }
 
-  function handleInput(e) {
-    console.log(e.target.value)
-    setDataSourceUserID( pre => {
-      return { ...pre, [e.target.name]: e.target.value }}  
-    )
-  }
+  // function handleInput(e) {
+  //   console.log(e.target.value)
+  //   setDataSourceUserID( pre => {
+  //     return { ...pre, [e.target.name]: e.target.value }}  
+  //   )
+  // }
   
 
 
 
   const onFinish = (values) => {
+    const {username, role, phoneNumber, password, gender, fullName, facebook} = values
+            const newd = {
+              "username": username,
+              "password": password,
+              "role": role,
+              "fullName": fullName,
+              "phoneNumber": phoneNumber,
+              "gender": gender,
+              "facebook": facebook
+            }
     if(image == null)
-    handleUpdate()
+    handleUpdate(newd)
     else
     handleUpload()
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
     
   };
 
@@ -177,16 +193,16 @@ function Profile() {
       return { ...pre, "birthDate": stringData}}  
     )
   }
-  const onchangSelectRole = (value) => {
-    setDataSourceUserID( pre => {
-      return { ...pre, "role": value}}  
-    )
-  }
-  const onchangeInputPhone = (value) => {
-    setDataSourceUserID( pre => {
-      return { ...pre, "phoneNumber": value}}  
-    )
-  }
+  // const onchangSelectRole = (value) => {
+  //   setDataSourceUserID( pre => {
+  //     return { ...pre, "role": value}}  
+  //   )
+  // }
+  // const onchangeInputPhone = (value) => {
+  //   setDataSourceUserID( pre => {
+  //     return { ...pre, "phoneNumber": value}}  
+  //   )
+  // }
 
   //Xử lý upload ảnh
   function getBase64(file) {
@@ -269,7 +285,7 @@ function Profile() {
   };
   useEffect(() => {
     if(image != null)
-    handleUpdate()
+    handleUpdate(null)
   }, [dataSourceUserID.avatarUrl])
 
   const dateFormat = "YYYY-MM-DD";
@@ -342,7 +358,7 @@ function Profile() {
         label="Tôi là: "
         rules={[{ required: true, message: 'Vui lòng chọn quyền!' }]}
       >
-        <Select name="role" onChange={onchangSelectRole} > 
+        <Select name="role" > 
           <Option value="0" >Admin</Option>
           <Option value="1">Chủ trọ</Option>
           <Option value="2" >Người thuê</Option>
@@ -355,9 +371,7 @@ function Profile() {
         tooltip="What do you want others to call you?"
         rules={[{ required: true, message: 'Vui lòng nhập Nickname!', whitespace: true }]}
       >
-        <Input name="username" onChange={handleInput} 
-        // defaultValue={dataSourceUserID.username}
-         />
+        <Input name="username" />
       </Form.Item>
 
       <Form.Item
@@ -366,13 +380,11 @@ function Profile() {
         tooltip="What do you want others to call you?"
         rules={[{ required: true, message: 'Vui lòng nhập họ và tên của bạn', whitespace: true }]}
       >
-        <Input name="fullName" onChange={handleInput} 
-        // defaultValue={dataSourceUserID.fullName} 
-        />
+        <Input name="fullName" />
       </Form.Item>
 
       <Form.Item name="gender" label="Giới tính" >
-        <Radio.Group name="gender" onChange={handleInput} >
+        <Radio.Group name="gender" >
           <Radio value={1}>Nam</Radio>
           <Radio value={0}>Nữ</Radio>
         </Radio.Group>
@@ -392,7 +404,7 @@ function Profile() {
         label="Số điện thoại"
         rules={[{ required: true, message: 'Vui lòng nhập số điện thoại của bạn' }]}
       >
-        <InputNumber addonBefore={prefixSelector} style={{ width: '100%' }} onChange={onchangeInputPhone} />
+        <InputNumber addonBefore={prefixSelector} style={{ width: '100%' }} />
       </Form.Item>
 
       <Form.Item
@@ -401,7 +413,7 @@ function Profile() {
         tooltip="What do you want others to call you?"
         // rules={[{ whitespace: true }]}
       >
-        <Input name="facebook" onChange={handleInput} />
+        <Input name="facebook" />
       </Form.Item>
       {/* <Form.Item     
         name="avatarUrl"
@@ -437,7 +449,10 @@ function Profile() {
       </Col>
       </Row>
     </Form>
-    
+    { alertMessage == 0 ? null : 
+      (alertMessage == 1 ? <Alert message="Cập nhật thành công!" type="success" showIcon /> :
+         <Alert message="Cập nhật thất bại" type="error" showIcon />
+      ) }
     </>
     )
 }

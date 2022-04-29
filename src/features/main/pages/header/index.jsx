@@ -4,35 +4,49 @@ import { Link as Lik} from 'react-router-dom';
 import { Anchor, Drawer, Button, Modal, Popover, Typography } from 'antd';
 import { BiChevronDown } from "react-icons/bi";
 import { PlusOutlined } from '@ant-design/icons';
+import { AiOutlinePlus } from "react-icons/ai";
 import Login from "../../../../components/login"
+import RoomAdd from "../room-add"
 import "../../index.scss";
 
 const { Link } = Anchor;
 
 function MainLayout() {
+  //Modal đăng nhập
   const [visible, setVisible] = useState(false);
-
   const showDrawer = () => {
     setVisible(true);
   };
-
   const onClose = () => {
     setVisible(false);
   };
-
-  //Modal đăng nhập
   const [isModalVisible, setIsModalVisible] = useState(false);
-
   const showModal = () => {
     setIsModalVisible(true);
   };
-
   const handleOk = () => {
     setIsModalVisible(false);
   };
-
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+  //Modal đăng tin
+  const [visibleAddRoom, setVisibleAddRoom] = useState(false);
+  const showDrawerAddRoom = () => {
+    setVisibleAddRoom(true);
+  };
+  const onCloseAddRoom = () => {
+    setVisibleAddRoom(false);
+  };
+  const [isModalVisibleAddRoom, setIsModalVisibleAddRoom] = useState(false);
+  const showModalAddRoom = () => {
+    setIsModalVisibleAddRoom(true);
+  };
+  const handleOkAddRoom = () => {
+    setIsModalVisibleAddRoom(false);
+  };
+  const handleCancelAddRoom = () => {
+    setIsModalVisibleAddRoom(false);
   };
 
   const logout = () => {
@@ -57,15 +71,18 @@ function MainLayout() {
             <Link href="/about" title="Giới thiệu" />
             <Link href="/works" title="Liên hệ" />
           </Anchor>
-
-          <Modal title="Đăng nhập" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <Login />
-          </Modal>
-          
         </div>
 
+        <Modal title="Đăng nhập" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+                <Login />
+        </Modal>
+        <Modal title="Đăng tin" visible={isModalVisibleAddRoom} onOk={handleOkAddRoom} onCancel={handleCancelAddRoom} footer={null}>
+            <RoomAdd />
+        </Modal>
+        <Button onClick={showModalAddRoom} type="primary" style={{ background: "green", borderColor: "green"}}> + Đăng tin</Button>
         {localStorage.getItem("accessToken") ? 
           (
+            
               <Popover
                           content={
                               <>

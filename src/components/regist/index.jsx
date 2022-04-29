@@ -51,6 +51,7 @@ const tailFormItemLayout = {
 };
 
 const Regist = () => {
+  const [form] = Form.useForm();
   //Xử lý dữ liệu user
   const reloadDataUser = useContext(DataContext).reloadDataUser
   const acc = {
@@ -77,7 +78,7 @@ const Regist = () => {
       "birthDate": user.birthDate,
       "phoneNumber": user.phoneNumber,
       "gender": user.gender,
-      "fb": user.fb,
+      "facebook": user.facebook,
       "avatarUrl": user.avatarUrl
     };
 
@@ -85,6 +86,8 @@ const Regist = () => {
     .then(function (response) {
       console.log(response.data);
       setAlertMessage(1)
+      form.resetFields()
+      // setTimeout(() => setAlertMessage(0),4000)
       reloadDataUser()
     })
     .catch(function (error) {
@@ -94,19 +97,32 @@ const Regist = () => {
 
   }
 
-  function handleInput(e) {
-    console.log(e)
-    setUser( pre => {
-      return { ...pre, [e.target.name]: e.target.value }}  
-    )
-  }
-  console.log(user)
+  // function handleInput(e) {
+  //   console.log(e)
+  //   setUser( pre => {
+  //     return { ...pre, [e.target.name]: e.target.value }}  
+  //   )
+  // }
+  // console.log(user)
 
-  const [form] = Form.useForm();
+
 
   const onFinish = (values) => {
     handleUpload()
     console.log('Received values of form: ', values);
+    const {username, role, phoneNumber, password, gender, fullName, facebook} = values
+            const newd = {
+              "username": username,
+              "password": password,
+              "role": role,
+              "fullName": fullName,
+              "phoneNumber": phoneNumber,
+              "gender": gender,
+              "facebook": facebook
+            }
+            setUser(pre => {
+              return {...pre, ...newd}
+            })
   };
 
   const prefixSelector = (
@@ -124,16 +140,17 @@ const Regist = () => {
       return { ...pre, "birthDate": stringData}}  
     )
   }
-  const onchangSelectRole = (value) => {
-    setUser( pre => {
-      return { ...pre, "role": value}}  
-    )
-  }
-  const onchangeInputPhone = (value) => {
-    setUser( pre => {
-      return { ...pre, "phoneNumber": value}}  
-    )
-  }
+
+  // const onchangSelectRole = (value) => {
+  //   setUser( pre => {
+  //     return { ...pre, "role": value}}  
+  //   )
+  // }
+  // const onchangeInputPhone = (value) => {
+  //   setUser( pre => {
+  //     return { ...pre, "phoneNumber": value}}  
+  //   )
+  // }
 
   //Xử lý upload ảnh
   function getBase64(file) {
@@ -215,7 +232,7 @@ const Regist = () => {
     <Form
       {...formItemLayout}
       form={form}
-      name="register"
+      name="regist"
       onFinish={onFinish}
       initialValues={{
         residence: ['zhejiang', 'hangzhou', 'xihu'],
@@ -228,7 +245,7 @@ const Regist = () => {
         label="Tôi là: "
         rules={[{ required: true, message: 'Vui lòng chọn quyền!' }]}
       >
-        <Select name="role" onChange={onchangSelectRole}>
+        <Select name="role" >
           <Option value="0">Admin</Option>
           <Option value="1">Chủ trọ</Option>
           <Option value="2">Người thuê</Option>
@@ -241,7 +258,7 @@ const Regist = () => {
         tooltip="What do you want others to call you?"
         rules={[{ required: true, message: 'Vui lòng nhập Nickname!', whitespace: true }]}
       >
-        <Input name="username" onChange={handleInput}/>
+        <Input name="username" />
       </Form.Item>
 
       <Form.Item    
@@ -255,7 +272,7 @@ const Regist = () => {
         ]}
         hasFeedback
       >
-        <Input.Password name="password" onChange={handleInput}/>
+        <Input.Password name="password" />
       </Form.Item>
 
       <Form.Item
@@ -287,11 +304,11 @@ const Regist = () => {
         tooltip="What do you want others to call you?"
         rules={[{ required: true, message: 'Vui lòng nhập họ và tên của bạn', whitespace: true }]}
       >
-        <Input name="fullName" onChange={handleInput} />
+        <Input name="fullName" />
       </Form.Item>
 
       <Form.Item name="gender" label="Giới tính" rules={[{ required: true, message: 'Vui lòng nhập giới tính của bạn', whitespace: true }]}>
-        <Radio.Group name="gender" onChange={handleInput}>
+        <Radio.Group name="gender" >
           <Radio value="1">Nam</Radio>
           <Radio value="0">Nữ</Radio>
         </Radio.Group>
@@ -306,16 +323,16 @@ const Regist = () => {
         label="Số điện thoại"
         rules={[{ required: true, message: 'Vui lòng nhập số điện thoại của bạn' }]}
       >
-        <InputNumber addonBefore={prefixSelector} style={{ width: '100%' }} onChange={onchangeInputPhone}/>
+        <InputNumber addonBefore={prefixSelector} style={{ width: '100%' }} />
       </Form.Item>
 
       <Form.Item
-        name="fb"
+        name="facebook"
         label="Link facebook"
         tooltip="What do you want others to call you?"
         rules={[{ whitespace: true }]}
       >
-        <Input name="fb" onChange={handleInput}/>
+        <Input name="facebook" />
       </Form.Item>
       {/* <Form.Item     
         name="avatarUrl"
@@ -333,8 +350,6 @@ const Regist = () => {
         rules={[{ whitespace: true, required: true, message: 'Vui lòng chọn ảnh' }]}
       >
         <div>
-        {/* <Input name="avatarUrl" value={nameImage}  /> */}
-        
         <Upload
           action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           listType="picture-card"
@@ -357,11 +372,9 @@ const Regist = () => {
         >
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
-        {/* <button onClick={handleUpload}>Upload</button> */}
-        <br />
-        <progress value={progress} max="100" />
-        <br />
-        
+          <br />
+          <progress value={progress} max="100" />
+          <br />
         </div>
       </Form.Item>
       

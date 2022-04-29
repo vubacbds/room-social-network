@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import RoomsInfo from '../rooms-info';
 import DetailsInfoRoom from './details-info-room';
 import Comment from './comment-review';
 import AppCarousel from '../carousel';
+import { useParams } from "react-router-dom";
+import {DataContext} from '../../../../utils/DataContext'
 import image1 from '../../../../assets/images/modern-design.jpg';
 import image2 from '../../../../assets/images/clean-design.jpg';
 import image3 from '../../../../assets/images/great-support.jpg';
@@ -37,11 +39,17 @@ const dataCarousel = roomDetail.images.map(item =>{
   return {image: item, key: Math.random()};
 });
 function RoomDetail() {
+  const {id} = useParams()
+  const dataRoomID = useContext(DataContext).dataRoomID
+  const getDataRoomID = useContext(DataContext).getDataRoomID
+  useEffect(() => {
+    getDataRoomID(id)
+  },[])
   return (
-    <div id="feature" className="block featureBlock bgGray">
+    <div id="feature" className="block featureBlock bgGray" style={{marginTop: 80}}>
       <div className="container-fluid">
         <div className="titleHolder">
-          <h2>{roomDetail.title}</h2>
+          <h2>{dataRoomID.descriptionRoom}</h2>
         </div>
         <AppCarousel data={dataCarousel} />
         <div>

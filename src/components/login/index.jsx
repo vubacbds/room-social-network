@@ -133,7 +133,7 @@ const Login = () => {
               Login
             </Button> &nbsp;
             Or <Button type="text" onClick={showModal}><span style={{color: '#1890FF'}}>register now!</span></Button>
-            <Modal title="Đăng ký" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Đăng ký" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
                 <Regist />
             </Modal>
           </Form.Item>

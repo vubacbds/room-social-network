@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import RoomsInfo from "../rooms-info"
 import AppCarousel from "../carousel"
 import image1 from '../../../../assets/images/modern-design.jpg';
@@ -8,7 +8,7 @@ import image4 from '../../../../assets/images/easy-customise.jpg';
 import image5 from '../../../../assets/images/unlimited-features.jpg';
 import image6 from '../../../../assets/images/advanced-option.jpg';
 import RoomProvince from '../room-province';
-
+import {DataContext} from '../../../../utils/DataContext'
 
 const items = [
   {
@@ -67,10 +67,13 @@ const images = [
 ]
 
 function Home() {
+  const dataRoom = useContext(DataContext).dataRoom
+  const dataRoomID = useContext(DataContext).dataRoomID
+  console.log(dataRoomID)
   return (
     <div id="feature" className="block featureBlock bgGray">
       <AppCarousel data={images} />
-      <RoomsInfo title="Tin mới đăng" desc="Thông tin các phòng trọ mới đăng" data={items} />
+      <RoomsInfo title="Tin mới đăng" desc="Thông tin các phòng trọ mới đăng" data={dataRoom} />
       <RoomsInfo title="Tin nổi bật trong ngày" desc="Thông tin các phòng trọ nổi bật trong ngày" data={items} />
       <RoomProvince title="Khám phá phòng trọ ở các thành phố lớn" desc="Tìm kiếm phòng trọ trong thành phố lớn và các tỉnh thành liên quan" data ={items}/>
     </div>

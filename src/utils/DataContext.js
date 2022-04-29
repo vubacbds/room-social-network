@@ -1,6 +1,8 @@
 import { useState, useEffect, createContext } from 'react'
 import { Rate } from 'antd';
 import userService from "../services/userService";
+import addressService from "../services/addressService";
+import roomService from "../services/roomService";
 
 export const DataContext = createContext()
 const dataPost = [
@@ -402,6 +404,13 @@ function DataProvider({children}) {
     const [dataSource, setDataSource] = useState([])
     const [dataSourceUser, setDataSourceUser] = useState([])
     const [dataSourceUserID, setDataSourceUserID] = useState([])
+
+    const [dataProvince, setDataProvince] = useState([])
+    const [dataDistrict, setDataDistrict] = useState([])
+    const [dataWard, setDataWard] = useState([])
+    const [dataRoom, setDataRoom] = useState([])
+    const [dataRoomID, setDataRoomID] = useState([])
+
     const reloadDataUser = () => {
       userService.getall()
       .then(function (response) {
@@ -411,7 +420,7 @@ function DataProvider({children}) {
       .catch(function (error) {
         console.log(error);
       });
-  }
+    }
     useEffect(() => {
         setDataSource(dataPost)
         reloadDataUser()
@@ -427,8 +436,53 @@ function DataProvider({children}) {
             console.log(error);
           })
         }
+      
+        //Lấy tỉnh
+        addressService.getProvince() 
+        .then(function (response) {
+          setDataProvince(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        //Lấy huyện
+        addressService.getDistrict() 
+        .then(function (response) {
+          setDataDistrict(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        //Lấy xã
+        addressService.getWard() 
+        .then(function (response) {
+          setDataWard(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+        //Lấy room
+        roomService.getroom() 
+        .then(function (response) {
+          setDataRoom(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        
     },[])
    
+    const getDataRoomID = (id) => {
+      roomService.getroomid(id) 
+      .then(function (response) {
+        setDataRoomID(response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
     const dataDaDang = dataSource.filter( item => {  
         return item.trangthai === 1;
     })
@@ -440,8 +494,9 @@ function DataProvider({children}) {
     const value = {
         dataDaDang, dataChoDuyet, dataSource, setDataSource, 
         dataSourceUser, setDataSourceUser, reloadDataUser,
-        dataSourceUserID, setDataSourceUserID
-
+        dataSourceUserID, setDataSourceUserID,
+        dataProvince, dataDistrict, dataWard,
+        dataRoom, dataRoomID, getDataRoomID
     }
     return (
         <DataContext.Provider value={value}>

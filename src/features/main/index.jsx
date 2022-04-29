@@ -20,7 +20,7 @@ function HomePage() {
       </Header>
       <Content>
         <Routes>
-          <Route path="/detail/*" element={<RoomDetail />} />
+          <Route path="/detail/:id/*" element={<RoomDetail />} />
           <Route path="/login/*" element={<Login />} />
           <Route path="/regist/*" element={<Regist />} />
           <Route path="/profile/:id/*" element={<Profile />} />

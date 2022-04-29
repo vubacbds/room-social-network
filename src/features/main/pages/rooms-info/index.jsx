@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import { Row, Col } from 'antd';
 import { Card } from 'antd';
 const { Meta } = Card;
@@ -6,21 +7,21 @@ const { Meta } = Card;
 function RoomsInfo(props) {
   
   var items = props.data;
-  const roomsInfo = items.map((item) => {
-    return (
-      <Col md={{ span: 8 }} key={item.key} >
-        <a href="/room-social-network/detail/facd0009as9fffff-feidws456">
+  const roomsInfo = items.map((item, index) => {
+    return index < 6 && (
+      <Col md={{ span: 8 }} key={index} >
+        <Link to={`detail/${item.roomId}`} >
           <Card
             hoverable
-            cover={<img alt={item.title} src={item.image} />}
+            cover={<img alt="Ảnh phòng trọ" src="https://upanh123.com/wp-content/uploads/2020/09/hinh-anh-ngoi-nha.jpg" />}
           >
-            <Meta title={item.title} />
-            <div>Diện tích: 40m²</div>
-            <div>Địa chỉ: {item.diachi}</div>
+            <Meta title={item.descriptionRoom} />
+            <div>Diện tích: {item.capacity}</div>
+            <div>Địa chỉ: {item.provinceId}</div>
             <div>Đánh giá: ⭐️⭐️⭐️</div>
-            <div>1.200.000đ/tháng</div>
+            <div>{item.price} /tháng</div>
           </Card>
-        </a>
+        </Link>
       </Col>
     )
   });

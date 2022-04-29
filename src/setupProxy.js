@@ -11,6 +11,22 @@ module.exports = function(app) {
   );
 
   app.use(
+    createProxyMiddleware("/district", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/ward", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
     createProxyMiddleware("/user/login", {
       target: "http://localhost:8085",
       secure: false,
@@ -44,6 +60,22 @@ module.exports = function(app) {
 
   app.use(
     createProxyMiddleware("/user/", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/room/", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/document", {
       target: "http://localhost:8085",
       secure: false,
       changeOrigin: true
