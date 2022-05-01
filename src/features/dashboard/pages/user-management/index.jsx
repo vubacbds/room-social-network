@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 // import '../../index.scss';
 import { Table, Input, InputNumber, Popconfirm, Form, 
-        Typography, Space, Row, Col, Button, Popover, Radio } from 'antd';
+        Typography, Space, Row, Col, Button, Popover, Radio, Modal } from 'antd';
 import { AudioOutlined, SearchOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import userService from "../../../../services/userService";
+import Regist from "../../../../components/regist"
 import {DataContext} from '../../../../utils/DataContext'
 
 const EditableCell = ({
@@ -44,8 +46,10 @@ const EditableCell = ({
 const UserManagement = () => {
   const dataSource = useContext(DataContext).dataSourceUser
   const setDataSource = useContext(DataContext).setDataSourceUser
+  const reloadDataUser = useContext(DataContext).reloadDataUser
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState('');
+  const [userInfo, setUserInfo] = useState();
   const isEditing = (record) => record.id === editingKey;
   const edit = (record) => {
     form.setFieldsValue({
@@ -56,22 +60,35 @@ const UserManagement = () => {
     });
     setEditingKey(record.id);
   };
-
+ console.log(dataSource)
   const cancel = () => {
     setEditingKey('');
   };
 
   const save = async (idvao) => {
     try {
+      
       const row = await form.validateFields();
+      console.log(row)
       const newData = [...dataSource];
       const index = newData.findIndex((item) => idvao === item.id);
 
       if (index > -1) {
+        //Sửa trên giao diện
         const item = newData[index];
         newData.splice(index, 1, { ...item, ...row });
         setDataSource(newData);
         setEditingKey('');
+
+        //Sửa trên CSDL
+        userService.getid(idvao)
+          .then(function (response) {
+            //console.log(JSON.stringify(response.data));
+            setUserInfo({response, row, idvao})
+          })
+          .catch(function (error) {
+            console.log(error);
+          })    
       } else {
         newData.push(row);
         setDataSource(newData);
@@ -82,19 +99,43 @@ const UserManagement = () => {
     }
   };
 
+  useEffect(() => {
+    if(userInfo != null){
+      const userInfoID = {...userInfo.response, ...userInfo.row}
+          console.log(userInfoID)
+          userService.update(userInfo.idvao, userInfoID)
+          .then(function (response) {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+  },[userInfo])
+
   const del = (idvao) => {
+    userService.delete(idvao)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      alert("Đã xóa")
+      reloadDataUser()
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
     // console.log(idvao)
-    try {
-      const newData = [...dataSource];
-      const index = newData.findIndex((item) => idvao === item.id);
-      if (index > -1) {
-        newData.splice(index, 1);
-        setDataSource(newData);
-      } 
-    }
-      catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
-    }
+    // try {                              //Cũng là reload
+    //   const newData = [...dataSource];
+    //   const index = newData.findIndex((item) => idvao === item.id);
+    //   if (index > -1) {
+    //     newData.splice(index, 1);
+    //     setDataSource(newData);
+    //   } 
+    // }
+    //   catch (errInfo) {
+    //   console.log('Validate Failed:', errInfo);
+    // }
   }
 
     //Xử lý tìm kiếm (mở)
@@ -173,35 +214,35 @@ const UserManagement = () => {
     //Xử lý tìm kiếm (đóng)
 
     const columns = [
-        {
-          title: 'ID',
-          dataIndex: 'id',
-          key: 'id',
-          editable: false,
-          sorter: (a, b) => a.id - b.id,
-          sortDirections: ['descend']
-        },
+        // {
+        //   title: 'ID',
+        //   dataIndex: 'id',
+        //   key: 'id',
+        //   editable: false,
+        //   sorter: (a, b) => a.id - b.id,
+        //   sortDirections: ['descend']
+        // },
         {
           title: 'Họ và tên',
-          dataIndex: 'hovaten',
-          key: 'hovaten',
+          dataIndex: 'fullName',
+          key: 'fullName',
           editable: true,
-          ...getColumnSearchProps('hovaten')
+          ...getColumnSearchProps('fullName')
         },
         {
           title: 'Username',
-          dataIndex: 'tendangnhap',
-          key: 'tendangnhap',
+          dataIndex: 'username',
+          key: 'username',
           editable: false,
-          ...getColumnSearchProps('tendangnhap')
+          ...getColumnSearchProps('username')
         },
         {
           title: 'Giới tính',
-          dataIndex: 'gioitinh',
-          key: 'gioitinh',
+          dataIndex: 'gender',
+          key: 'gender',
           editable: true,
           render: (_, record) => {
-            return <p>{record.gioitinh=='nam'?'Nam':'Nữ'}</p>
+            return <p>{record.gender==1?'Nam':'Nữ'}</p>
             },
           filters: [
             {
@@ -217,37 +258,30 @@ const UserManagement = () => {
             filterSearch: false
         },
         {
-          title: 'Tuổi',
-          dataIndex: 'tuoi',
-          key: 'tuoi',
+          title: 'Ngày sinh',
+          dataIndex: 'birthDate',
+          key: 'birthDate',
           editable: true
         },
         {
           title: 'Liên hệ',
-          dataIndex: 'sdt',
-          key: 'sdt',
+          dataIndex: 'phoneNumber',
+          key: 'phoneNumber',
           editable: true,
-          ...getColumnSearchProps('sdt')
+          ...getColumnSearchProps('phoneNumber')
         },
         Table.EXPAND_COLUMN,
         {
           title: 'Quyền',
-          dataIndex: 'quyen',
-          key: 'quyen',
+          dataIndex: 'role',
+          key: 'role',
           editable: true,
+          // render: (_, record) => {
+          //   return <p>{record.quyen==1?'Chủ trọ':'Thường'}</p>
+          //   },
           render: (_, record) => {
-            return <p>{record.quyen==1?'Chủ trọ':'Thường'}</p>
+            return <p>{record.role=='0'?'Admin':(record.role=='1' ? 'Chủ trọ' : 'Người thuê')}</p>
             },
-          filters: [
-            {
-                text: 'Chủ trọ',
-                value: 1
-            },
-            {
-                text: 'Thường',
-                value: 0
-            },
-            ],
             onFilter: (value, record) => record.quyen == value,
             filterSearch: false  
         },
@@ -259,7 +293,7 @@ const UserManagement = () => {
                     <Popover
                         content={
                             <div>
-                                <img src={record.img} style={{width: 200, height: 200}}  />
+                                <img src={record.avatarUrl} style={{width: 200, height: 200}}  />
                             </div>
                         } 
                         title="Avartar" 
@@ -316,7 +350,7 @@ const UserManagement = () => {
       ...col,
       onCell: (record) => ({
         record,
-        inputType: (col.dataIndex === 'tuoi' || col.dataIndex === 'quyen') ? 'number' : 'text', 
+        inputType: (col.dataIndex === 'phoneNumber' || col.dataIndex === 'gender') ? 'number' : 'text', 
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
@@ -325,6 +359,21 @@ const UserManagement = () => {
   });
 
   const { Search } = Input; 
+
+  //Modal đăng ký
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
   return (
     <>
       <Row>
@@ -333,7 +382,14 @@ const UserManagement = () => {
             <h4 style={{ fontWeight: 'inherit', fontStyle: 'italic' }}>Có tổng {dataSource.length} người dùng</h4>
           </Col>
           <Col span={12}></Col>
-          <Col span={6} ></Col>
+          <Col span={6} >
+              <Button type="primary" onClick={showModal}>
+                Thêm người dùng mới
+              </Button>
+              <Modal title="Đăng ký" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+                <Regist />
+              </Modal>
+          </Col>
       </Row>
 
       <Row>
@@ -357,7 +413,7 @@ const UserManagement = () => {
             }}
             rowKey={record => record.id}
             expandable={{
-                expandedRowRender: record => <p style={{ margin: 0 }}>{record.gmail} || <a href={record.fb}>{record.fb}</a></p>,
+                expandedRowRender: record => <p style={{ margin: 0 }}>{record.birthDate} || <a href={record.fb}>{record.fb}</a></p>,
                 }}
           />
         </Form>

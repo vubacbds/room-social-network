@@ -10,25 +10,31 @@ import userService from "./services/userService";
 const HomePage = React.lazy(() => import("./features/main"));
 const DashBoard = React.lazy(() => import("./features/dashboard"));
 const Login = React.lazy(() => import("./components/login"));
+<<<<<<< HEAD
 const Register = React.lazy(() => import("./components/register"));
 const News = React.lazy(() => import("./features/dashboard/pages/manapostnews"));
+=======
+const Regist = React.lazy(() => import("./components/regist"));
+const Profile = React.lazy(() => import("./features/main/pages/profile"));
+
+>>>>>>> eda6aaeca013083918e3ff82e1d07db60be49696
 
 function App() {
-  useEffect(()=>{
-    //test call api login
-    userService.authenticate({
-      "username": "nghiabui",
-      "password": "12345"
-    }).then((res) => {
-      if(res.accessToken){
-        console.log("Token ", res.accessToken);
-        localStorage.setItem("accessToken", res.accessToken);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, []);
+  // useEffect(()=>{
+  //   //test call api login
+  //   userService.authenticate({
+  //     "username": "nghiabui",
+  //     "password": "12345"
+  //   }).then((res) => {
+  //     if(res.accessToken){
+  //       console.log("Token ", res.accessToken);
+  //       localStorage.setItem("accessToken", res.accessToken);
+  //     }
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+  // }, []);
   return (
     <div className="app">
       <Suspense
@@ -45,7 +51,12 @@ function App() {
             <Route path="/admin-management/*" element={<DashBoard/>} />
             <Route path="/news/*" element={<News/>} />
             <Route path="/login/*" element={<Login/>} />
+<<<<<<< HEAD
             <Route path="/register/*" element={<Register/>} />
+=======
+            <Route path="/regist/*" element={<Regist/>} />
+            <Route path="/profile/:id" element={<Profile />} />
+>>>>>>> eda6aaeca013083918e3ff82e1d07db60be49696
             <Route path="*" element={<NotFound/>} />
           </Routes>
         </BrowserRouter>

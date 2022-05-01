@@ -1,5 +1,9 @@
 import { useState, useEffect, createContext } from 'react'
 import { Rate } from 'antd';
+import userService from "../services/userService";
+import addressService from "../services/addressService";
+import roomService from "../services/roomService";
+
 export const DataContext = createContext()
 const dataPost = [
     {
@@ -341,67 +345,144 @@ const dataPost = [
         trangthai: 0
       }
   ];
-const dataUser = [
-    {
-      id: 1,
-      hovaten: 'Vũ Xuân Bắc',
-      tendangnhap: 'bacvu',
-      tuoi: 22,
-      gioitinh: 'nam',
-      diachi: 'Đắk Lắk',
-      gmail: 'vubacbds@gmail.com',
-      sdt: '0868609878',
-      quyen: 1,
-      img: 'https://pdp.edu.vn/wp-content/uploads/2021/05/hinh-anh-avatar-nam-1-600x600.jpg',
-      fb: 'https://fb.com/profiles?id=bac',
-    },
-    {
-      id: 2,
-      hovaten: 'Đặng Thị Diệp',
-      tendangnhap: 'diepdang',
-      tuoi: 22,
-      gioitinh: 'nu',
-      diachi: 'Hà Nội',
-      gmail: 'diepdang@gmail.com',
-      sdt: '0936785671',
-      quyen: 0,
-      img: 'https://xinhstar.vn/wp-content/uploads/2020/08/21.jpg',
-      fb: '',
-    },
-    {
-        id: 3,
-        hovaten: 'Nguyễn Đình Thọ',
-        tendangnhap: 'thonguyen',
-        tuoi: 22,
-        gioitinh: 'nam',
-        diachi: 'Đắk Lắk',
-        gmail: 'ndtho@gmail.com',
-        sdt: '098785686',
-        quyen: 1,
-        img: 'https://phunugioi.com/wp-content/uploads/2021/10/Hinh-anh-chibi-superman-dep.jpg',
-        fb: 'https://fb.com/profiles?id=tho',
-    },
-    {
-        id: 4,
-        hovaten: 'Anh Thư',
-        tendangnhap: 'thonguyen',
-        tuoi: 18,
-        gioitinh: 'nu',
-        diachi: 'Hồ Chí Minh',
-        gmail: 'anhthu@gmail.com',
-        sdt: '0987856666',
-        quyen: 0,
-        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7dwgCJqfs9Gp3SR7D0TQ87kLrpM6CYr1Viw&usqp=CAU',
-        fb: 'https://fb.com/profiles?id=thu',
-    }
-  ];
+// const dataUser = [
+//     {
+//       id: 1,
+//       hovaten: 'Vũ Xuân Bắc',
+//       tendangnhap: 'bacvu',
+//       tuoi: 22,
+//       gioitinh: 'nam',
+//       diachi: 'Đắk Lắk',
+//       gmail: 'vubacbds@gmail.com',
+//       sdt: '0868609878',
+//       quyen: 1,
+//       img: 'https://pdp.edu.vn/wp-content/uploads/2021/05/hinh-anh-avatar-nam-1-600x600.jpg',
+//       fb: 'https://fb.com/profiles?id=bac',
+//     },
+//     {
+//       id: 2,
+//       hovaten: 'Đặng Thị Diệp',
+//       tendangnhap: 'diepdang',
+//       tuoi: 22,
+//       gioitinh: 'nu',
+//       diachi: 'Hà Nội',
+//       gmail: 'diepdang@gmail.com',
+//       sdt: '0936785671',
+//       quyen: 0,
+//       img: 'https://xinhstar.vn/wp-content/uploads/2020/08/21.jpg',
+//       fb: '',
+//     },
+//     {
+//         id: 3,
+//         hovaten: 'Nguyễn Đình Thọ',
+//         tendangnhap: 'thonguyen',
+//         tuoi: 22,
+//         gioitinh: 'nam',
+//         diachi: 'Đắk Lắk',
+//         gmail: 'ndtho@gmail.com',
+//         sdt: '098785686',
+//         quyen: 1,
+//         img: 'https://phunugioi.com/wp-content/uploads/2021/10/Hinh-anh-chibi-superman-dep.jpg',
+//         fb: 'https://fb.com/profiles?id=tho',
+//     },
+//     {
+//         id: 4,
+//         hovaten: 'Anh Thư',
+//         tendangnhap: 'thonguyen',
+//         tuoi: 18,
+//         gioitinh: 'nu',
+//         diachi: 'Hồ Chí Minh',
+//         gmail: 'anhthu@gmail.com',
+//         sdt: '0987856666',
+//         quyen: 0,
+//         img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7dwgCJqfs9Gp3SR7D0TQ87kLrpM6CYr1Viw&usqp=CAU',
+//         fb: 'https://fb.com/profiles?id=thu',
+//     }
+//   ];
+
 function DataProvider({children}) {
     const [dataSource, setDataSource] = useState([])
-    const [dataSourceUser, setDataSourceUser] = useState(dataUser)
+    const [dataSourceUser, setDataSourceUser] = useState([])
+    const [dataSourceUserID, setDataSourceUserID] = useState([])
+
+    const [dataProvince, setDataProvince] = useState([])
+    const [dataDistrict, setDataDistrict] = useState([])
+    const [dataWard, setDataWard] = useState([])
+    const [dataRoom, setDataRoom] = useState([])
+    const [dataRoomID, setDataRoomID] = useState([])
+
+    const reloadDataUser = () => {
+      userService.getall()
+      .then(function (response) {
+        //console.log(JSON.stringify(response.data));
+        setDataSourceUser(response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
     useEffect(() => {
         setDataSource(dataPost)
+        reloadDataUser()
+
+        if(localStorage.getItem("id"))
+        {
+          userService.getid(localStorage.getItem("id"))
+          .then(function (response) {
+            //console.log(JSON.stringify(response.data));
+            setDataSourceUserID(response)
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        }
+      
+        //Lấy tỉnh
+        addressService.getProvince() 
+        .then(function (response) {
+          setDataProvince(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        //Lấy huyện
+        addressService.getDistrict() 
+        .then(function (response) {
+          setDataDistrict(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        //Lấy xã
+        addressService.getWard() 
+        .then(function (response) {
+          setDataWard(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+        //Lấy room
+        roomService.getroom() 
+        .then(function (response) {
+          setDataRoom(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        
     },[])
    
+    const getDataRoomID = (id) => {
+      roomService.getroomid(id) 
+      .then(function (response) {
+        setDataRoomID(response)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+
     const dataDaDang = dataSource.filter( item => {  
         return item.trangthai === 1;
     })
@@ -412,7 +493,10 @@ function DataProvider({children}) {
 
     const value = {
         dataDaDang, dataChoDuyet, dataSource, setDataSource, 
-        dataSourceUser, setDataSourceUser
+        dataSourceUser, setDataSourceUser, reloadDataUser,
+        dataSourceUserID, setDataSourceUserID,
+        dataProvince, dataDistrict, dataWard,
+        dataRoom, dataRoomID, getDataRoomID
     }
     return (
         <DataContext.Provider value={value}>

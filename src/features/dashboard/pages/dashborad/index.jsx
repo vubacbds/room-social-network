@@ -6,6 +6,7 @@ import { Routes, Route, Link, useParams, Outlet, useNavigate } from 'react-route
 import { useState, useContext } from 'react'
 import '../../index.scss';
 import {DataContext} from '../../../../utils/DataContext'
+import PrivateOutlet from '../private-outlet'
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -87,7 +88,7 @@ function AdminPage() {
             }}
           >
             
-              <Outlet /> 
+              <PrivateOutlet /> 
 
           </Content>
         </Layout>

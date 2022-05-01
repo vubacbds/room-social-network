@@ -40,7 +40,7 @@ function  RoomProvince (props){
                             <Image title='Hồ Chí Minh' style={{height:260}} src="https://live.staticflickr.com/3333/3175831395_7361b4851c_n.jpg" />
                         </Col>  
                         <Col span={4} >
-                            <Image title='Quy Nhơn City' style={{height:260}} src="https://th.bing.com/th/id/R.1742abadb5bce65a001082cad478882c?rik=9jZni6EFE5wzrw&riu=http%3a%2f%2fwww.vietnamvisa-easy.com%2fblog%2fwp-content%2fuploads%2f2013%2f11%2fQuy-Nhon-travel-vietnam-visa-vietnam-embassy3.jpg&ehk=E5FDHwLUgaue6jlsxK%2fO4iMQYQpAs6J42ftkAACuTvA%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1" />
+                            <Image title='Quy Nhơn City' style={{height:260}} src="https://th.bing.com/th/id/R.1742abadb5bce65a001082cad478882c?rik=9jZni6EFE5wzrw&riu=http%3a%2f%2fwww.vietnamvisa-easy.com%2fblog%2fwp-content%2fuploads%2f2013%2f11%2fQuy-Nhon-travel-vietnam-visa-vietnam-embassy3.jpg&ehk=E5FDHwLUgaue6jlsxK%2fO4iMQYQpAs6J42ftkAACuTvA%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1.jpg" />
                         </Col>  
                     </>   
                     );
