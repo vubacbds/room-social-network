@@ -92,6 +92,7 @@ const Login = () => {
         localStorage.setItem("id", res.userDetailDto.id);
         localStorage.setItem("role", res.userDetailDto.role);
         localStorage.setItem("avatarUrl", res.userDetailDto.avatarUrl);
+        localStorage.setItem("fullName", res.userDetailDto.fullName);
         alert("Đăng nhập thành công !")
         setTimeout("location.reload(true)",1000)
       }

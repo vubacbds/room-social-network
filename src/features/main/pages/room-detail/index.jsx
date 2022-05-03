@@ -8,6 +8,14 @@ import {DataContext} from '../../../../utils/DataContext'
 import image1 from '../../../../assets/images/modern-design.jpg';
 import image2 from '../../../../assets/images/clean-design.jpg';
 import image3 from '../../../../assets/images/great-support.jpg';
+import roomService from "../../../../services/roomService";
+import "../../index.scss";
+import { Button, Row, Col } from 'antd';
+import { BiMap, BiDollar, BiStar, BiTrip } from "react-icons/bi";
+import { CgMail } from "react-icons/cg";
+import { FiFacebook} from "react-icons/fi";
+import { AiOutlinePhone} from "react-icons/ai";
+
 const items = [
   {
     key: '1',
@@ -35,64 +43,108 @@ const roomDetail = {
     'https://content.r9cdn.net/himg/f5/94/af/leonardo-178075906-Hyatt-Ziva-Los-Cabos-Club-Ocean-View-Master-Double_O-343218.jpg'
   ]
 };
-const dataCarousel = roomDetail.images.map(item =>{
-  return {image: item, key: Math.random()};
-});
+
 function RoomDetail() {
   const {id} = useParams()
-  const dataRoomID = useContext(DataContext).dataRoomID
-  const getDataRoomID = useContext(DataContext).getDataRoomID
+  // const dataRoomID = useContext(DataContext).dataRoomID
+  const getDataRoomInfoID = useContext(DataContext).getDataRoomInfoID
+  const dataDistrict = useContext(DataContext).dataDistrict
+  const dataWard = useContext(DataContext).dataWard
+  const [dataRoomID, setDataRoomID] = useState()
+  
+  
+ 
   useEffect(() => {
-    getDataRoomID(id)
-  },[])
-  return (
-    <div id="feature" className="block featureBlock bgGray" style={{marginTop: 80}}>
+    if(dataWard){
+        roomService.getroominfoid(id) 
+        .then(function (response) {
+          
+            const getward = dataWard.find((w) => {
+              return w.wardId == response.wardId 
+            })
+            response.wardId = { "wardName": getward?.wardName, "wardPrefix": getward?.wardPrefix}
+      
+            const getdistrict = dataDistrict.find((d) => {
+              return d.districtId == response.districtId 
+            })
+            response.districtId = { "districtName": getdistrict?.districtName, "districtPrefix": getdistrict?.districtPrefix}
+  
+          response.price = response.price.toLocaleString('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+          })
+  
+          setDataRoomID(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+  
+    }
+  },[dataWard])
+
+  var dataCarousel
+    if(dataRoomID) {
+      dataCarousel = dataRoomID.documentEntities?.map(item =>{
+        
+        return {image: item.nameUrl, key: Math.random()};
+      });
+    }
+  const styleImg = {
+    width: 700,
+    height: 500,
+    textAlign: 'center',
+    marginLeft: 120
+  }
+  return (dataCarousel && dataRoomID) && (
+    <div id="feature" className="block featureBlock bgGray" style={{marginTop: 20}}>
       <div className="container-fluid">
-        <div className="titleHolder">
+        {/* <div className="titleHolder">
           <h2>{dataRoomID.descriptionRoom}</h2>
-        </div>
-        <AppCarousel data={dataCarousel} />
+        </div> */}
+        <AppCarousel data={dataCarousel} styleImg={styleImg} />
         <div>
-          <h4 className="titleHolder marginTop">Thông tin chi tiết phòng trọ</h4>
-          <DetailsInfoRoom />
-          <div className='box'>
-            <div className='titleHolder'>Mô tả chi tiết</div>
-            KHAI TRƯƠNG PHÒNG CHO THUÊ NGAY NGÃ TƯ GÒ MÂY VỚI GIÁ SIÊU RẺ 🌟<br />
-            Giá : 2tr6 - 3tr2 ( ban công riêng ) ❌<br />
-            ❌ Nội thất : Máy lạnh , Tủ quần áo , Tủ bếp trên - bếp dưới , Nước nóng NLMT <br />
-            🚦Vị trí : Nằm ngã tư gò mây thuận tiện sang ĐH Hufi , đường Phạm Đăng Giảng , Lê Trọng Tấn , Trường Chinh , Kênh 19/5 , Aeon Tân Phú <br />
-            KHAI TRƯƠNG PHÒNG CHO THUÊ NGAY NGÃ TƯ GÒ MÂY VỚI GIÁ SIÊU RẺ 🌟<br />
-            Giá : 2tr6 - 3tr2 ( ban công riêng ) ❌ <br />
-
-            ❌ Nội thất : Máy lạnh , Tủ quần áo , Tủ bếp trên - bếp dưới , Nước nóng NLMT<br />
-
-            🚦Vị trí : Nằm ngã tư gò mây thuận tiện sang ĐH Hufi , đường Phạm Đăng Giảng , Lê Trọng Tấn , Trường Chinh , Kênh 19/5 , Aeon Tân Phú<br />
-
-            🎁 Tiện ích :<br />
-            ➡️ Phòng mới sạch sẽ, rộng rãi, mới xây<br />
-            ➡️ Trang bị đầy đủ tiện nghi<br />
-            ➡️ Giờ giấc tự do, không chung chủ<br />
-            ➡️ Máy giặt chung, camera an ninh, wifi, vệ sinh hành lang thường xuyên , cửa vân tay<br />
-            ➡️ Bãi giữ xe rộng rãi<br />
-
-            ❌ Chi phí hợp lí :<br />
-            ⚡️ Điện : 3,5k/Kwh<br />
-            💦 Nước : 100k/người<br />
-            🏍 Xe : Free<br />
-            ✨ Phí dịch vụ : 100k/phòng<br />
-
-            ❌ Tăng 400.000/tháng đến khi làm gác<br />
-
-            💥 PHÒNG HOT PHÒNG HOT LIÊN HỆ NHANH ĐỂ CÓ PHÒNG VỊ TRÍ ĐẸP NHẤT 💥<br />
-            ----------------------------------------------<br />
-            ☎️ Điện thoại liên hệ:<br />
+          {/* <h4 className="titleHolder marginTop">Thông tin chi tiết phòng trọ</h4>
+          <DetailsInfoRoom /> */}
+          <Row>
+            <Col span={12}>
+          <div className='box' >
+            <div className='titleHolder'><b>Chi tiết phòng trọ</b></div>
+            <div style={{marginLeft: 50, height: 180}}>
+            <div> {dataRoomID.descriptionRoom} </div>
+            <div style={{marginTop: 5}}><BiTrip /> Diện tích: {dataRoomID.capacity} m<sup>2</sup></div>
+            <div><BiStar /> Đánh giá: ⭐️⭐️⭐️</div>
+            <div>
+              <BiMap /> {`${dataRoomID.wardId?.wardPrefix} ${dataRoomID.wardId?.wardName}, ${dataRoomID.districtId?.districtPrefix}, ${dataRoomID.districtId?.districtName}, ${dataRoomID.provinceEntity?.provinceName}`}
+            </div>
+            <Button type="primary" style={{ background: "#8D0972", borderColor: "#8D0972", marginTop: 5,  marginBottom: 20}}>{dataRoomID.price}/tháng</Button>
+            </div>
           </div>
-          <div className='marginTop'>
+          </Col>
+
+          <Col span={12}>
+          <div className='box'>
+            <div className='titleHolder'><b>Thông tin chủ trọ</b></div>
+            <div style={{marginLeft: 50, height: 180}}>
+            <img className='imgavartar' src={dataRoomID.userEntity.avatarUrl} width={46} height={46}/>
+            <span> {dataRoomID.userEntity.fullName} </span>
+            <div style={{marginTop: 5}}><AiOutlinePhone /> {dataRoomID.userEntity.phoneNumber}</div>
+            <div style={{marginTop: 5}}><CgMail /> {dataRoomID.userEntity.username}</div>
+            <div><FiFacebook /><a href={dataRoomID.userEntity.facebook}> {dataRoomID.userEntity.facebook}</a></div>
+
+            </div>
+          </div>
+          </Col>
+          </Row>
+
+
+
+          <div className='marginTop' style={{marginTop: 100}}>
             <RoomsInfo title='Phòng tương thích' data={items} />
           </div>
 
           <h4 className='marginTop'>Bình luận</h4>
-          <Comment />
+          <Comment dataComment={dataRoomID.evaluationEntities} roomid={id} />
         </div>
       </div>
     </div>

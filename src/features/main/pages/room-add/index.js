@@ -5,6 +5,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { storage } from "../../../../components/firebase";
 import { DataContext } from '../../../../utils/DataContext'
 import roomService from "../../../../services/roomService";
+import documentService from "../../../../services/documentService";
 import Address from './Addresss';
 import InfoRoom from './InfoRoom';
 import ImageRoom from './ImageRoom';
@@ -18,13 +19,13 @@ function RoomAdd () {
       "typeUrl": '2'
     })
     const [activeKey, setActiveKey] = useState('1')
-    const onKeyChange = (key) => setActiveKey(key)
+    const onKeyChange = (key) => { setActiveKey(pre => {return key>pre ? pre : key}) }
     const [alertMessage, setAlertMessage] = useState(0) 
     // const [form] = Form.useForm();
 
     const onFinish1 = (values) => {
-      console.log('vua bam');
-            // console.log('Received values of form: ', values);
+            console.log('vua nhan')
+            setActiveKey('2') 
             const {province, district, ward, street} = values
             const newd = {
                 "provinceId": province,
@@ -33,7 +34,7 @@ function RoomAdd () {
                 "street": street 
             }
             setNewRoom(pre => {return {...pre, ...newd}})
-            setActiveKey('2') 
+            
     };
 
     const onFinish2 = (values) => {
@@ -81,12 +82,14 @@ function RoomAdd () {
 
   const posdocument = (data) => {
     console.log(data)
-    roomService.adddocument(data)
+    documentService.adddocument(data)
     .then(function (response) {
       console.log(response)
       setAlertMessage(1)
       // form.resetFields()
-      setTimeout(() => setAlertMessage(0),4000)
+      setActiveKey('1') 
+      setTimeout(() => setAlertMessage(0),3000)
+      
     })
     .catch(function (error) {
       console.log(error);
@@ -138,7 +141,7 @@ function RoomAdd () {
     <>
       <Tabs defaultActiveKey="1" activeKey={activeKey} onChange={onKeyChange}>
         <TabPane tab="Chọn địa chỉ" key="1">
-            <Address onFinish1={onFinish1}/>
+            <Address onFinish1={onFinish1} />
         </TabPane>
         <TabPane tab="Chi tiết phòng trọ" key="2">
             <InfoRoom onFinish2={onFinish2} />

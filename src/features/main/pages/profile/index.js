@@ -219,7 +219,7 @@ function Profile() {
     const [fileList, setFileList] = useState([
         {
             uid: '-1',
-            name: 'image.png',
+            name: 'avartar.jpg',
             status: 'done',
             url: dataSourceUserID.avatarUrl,
           }
@@ -241,7 +241,8 @@ function Profile() {
   
 
   const handleChange = e => {
-    console.log(e)
+    // storage.ref(`images/${localStorage.getItem("username")}`).delete() //Xóa ảnh trong firebase
+    // console.log(e)
     // setNameImage([e.file][0].name)
     setFileList(e.fileList) 
     setImage(e.file.originFileObj);
@@ -269,7 +270,7 @@ function Profile() {
       () => {
         storage
           .ref("images")
-          .child(image.name)
+          .child(image.name) //Thay vì tên ảnh 'image.name', đặt bằng username cho dễ xóa
           .getDownloadURL()
           .then(urlimg => {
             // setUrl(urlimg);
@@ -287,6 +288,7 @@ function Profile() {
     if(image != null)
     handleUpdate(null)
   }, [dataSourceUserID.avatarUrl])
+
 
   const dateFormat = "YYYY-MM-DD";
     return(

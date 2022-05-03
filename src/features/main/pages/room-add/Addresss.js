@@ -29,6 +29,7 @@ const tailFormItemLayout = {
 };
 
 function Address({onFinish1}) {
+    
     const [form] = Form.useForm();
     const dataProvince = useContext(DataContext).dataProvince
     const dataDistrict = useContext(DataContext).dataDistrict
@@ -65,7 +66,7 @@ function Address({onFinish1}) {
                     label="Tỉnh/TP: "
                     rules={[{ required: true, message: 'Vui lòng chọn Tỉnh/TP!' }]}
                 >
-                    <Select name="role" onChange={handleChangeProvince}> 
+                    <Select name="province" onChange={handleChangeProvince}> 
                     {
                         dataProvince.map((e) => <Option value={e.provinceId} >{e.provinceName}</Option>)
                     } 

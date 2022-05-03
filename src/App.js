@@ -5,6 +5,7 @@ import "antd/dist/antd.css";
 import "./App.scss";
 import NotFound from "./components/not-found";
 import userService from "./services/userService";
+import RoomAdd from "./features/main/pages/room-add";
 
 //Lazy loading
 const HomePage = React.lazy(() => import("./features/main"));
@@ -58,6 +59,7 @@ function App() {
             <Route path="/profile/:id" element={<Profile />} />
 >>>>>>> eda6aaeca013083918e3ff82e1d07db60be49696
             <Route path="*" element={<NotFound/>} />
+            <Route path="/RoomAdd" element={<RoomAdd/>} />
           </Routes>
         </BrowserRouter>
       </Suspense>

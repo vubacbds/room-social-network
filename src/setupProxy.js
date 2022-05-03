@@ -75,12 +75,53 @@ module.exports = function(app) {
   );
 
   app.use(
+    createProxyMiddleware("/room/info", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
     createProxyMiddleware("/document", {
       target: "http://localhost:8085",
       secure: false,
       changeOrigin: true
     })
   );
+
+  app.use(
+    createProxyMiddleware("/document/delete", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/document/room/", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/room/search", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+
+  app.use(
+    createProxyMiddleware("/evaluation", {
+      target: "http://localhost:8085",
+      secure: false,
+      changeOrigin: true
+    })
+  );
+  
 
 
 

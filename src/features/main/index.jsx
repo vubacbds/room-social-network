@@ -11,9 +11,14 @@ import Register from "../../components/register";
 =======
 import Regist from "../../components/regist";
 import Profile from "./pages/profile";
+<<<<<<< HEAD
 
 >>>>>>> eda6aaeca013083918e3ff82e1d07db60be49696
+=======
+>>>>>>> c793db0a1170ed5d066a83f93b21099168a60b0f
 import { Layout } from 'antd';
+import RoomManagement from "./pages/room-management";
+import RoomList from "./pages/room-list";
 const { Header, Content, Footer } = Layout;
 
 function HomePage() {
@@ -31,6 +36,9 @@ function HomePage() {
 =======
           <Route path="/regist/*" element={<Regist />} />
           <Route path="/profile/:id/*" element={<Profile />} />
+          <Route path="/room-management/*" element={<RoomManagement />} />
+          <Route path="/room-list/*" element={<RoomList />} />
+          <Route path="/room-list/:id/*" element={<RoomList />} />
           
 >>>>>>> eda6aaeca013083918e3ff82e1d07db60be49696
           <Route path="/" element={<Home />}>

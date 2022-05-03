@@ -116,7 +116,7 @@ const Regist = () => {
               "password": password,
               "role": role,
               "fullName": fullName,
-              "phoneNumber": phoneNumber,
+              "phoneNumber": `0${phoneNumber}`,
               "gender": gender,
               "facebook": facebook
             }
@@ -246,7 +246,7 @@ const Regist = () => {
         rules={[{ required: true, message: 'Vui lòng chọn quyền!' }]}
       >
         <Select name="role" >
-          <Option value="0">Admin</Option>
+          {/* <Option value="0">Admin</Option> */}
           <Option value="1">Chủ trọ</Option>
           <Option value="2">Người thuê</Option>
         </Select>

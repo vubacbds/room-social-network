@@ -35,7 +35,7 @@ const prefixSelector = (
 const prefixSelectorPrice = (
     <Form.Item name="prefix" noStyle>
       <Select style={{ width: 100 }} defaultValue={"vnd"} >
-        <Option value="vnd">VND</Option>
+        <Option value="vnd">vnđ/tháng</Option>
       </Select>
     </Form.Item>
   );

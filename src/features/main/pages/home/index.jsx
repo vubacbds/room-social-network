@@ -69,12 +69,11 @@ const images = [
 function Home() {
   const dataRoom = useContext(DataContext).dataRoom
   const dataRoomID = useContext(DataContext).dataRoomID
-  console.log(dataRoomID)
   return (
     <div id="feature" className="block featureBlock bgGray">
       <AppCarousel data={images} />
-      <RoomsInfo title="Tin mới đăng" desc="Thông tin các phòng trọ mới đăng" data={dataRoom} />
-      <RoomsInfo title="Tin nổi bật trong ngày" desc="Thông tin các phòng trọ nổi bật trong ngày" data={items} />
+      <RoomsInfo title="Tin mới đăng" desc="Thông tin các phòng trọ mới đăng" data={dataRoom} itemsAmount={6}/>
+      <RoomsInfo title="Tin nổi bật trong ngày" desc="Thông tin các phòng trọ nổi bật trong ngày" data={dataRoom} itemsAmount={3} />
       <RoomProvince title="Khám phá phòng trọ ở các thành phố lớn" desc="Tìm kiếm phòng trọ trong thành phố lớn và các tỉnh thành liên quan" data ={items}/>
     </div>
   );

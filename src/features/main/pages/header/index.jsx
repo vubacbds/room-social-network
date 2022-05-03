@@ -40,7 +40,7 @@ function MainLayout() {
   };
   const [isModalVisibleAddRoom, setIsModalVisibleAddRoom] = useState(false);
   const showModalAddRoom = () => {
-    setIsModalVisibleAddRoom(true);
+    setIsModalVisibleAddRoom(true)
   };
   const handleOkAddRoom = () => {
     setIsModalVisibleAddRoom(false);
@@ -54,9 +54,11 @@ function MainLayout() {
     localStorage.removeItem("id")
     localStorage.removeItem("role")
     localStorage.removeItem("avatarUrl")
+    localStorage.removeItem("fullName")
     setTimeout("location.reload(true)",1000)
   }
   
+  const role = localStorage.getItem("role")
   return (
     <div className="container-fluid">
       <div className="header">
@@ -67,7 +69,7 @@ function MainLayout() {
         <div className="mobileHidden">
           <Anchor targetOffset="65">
             <Link href="/" title="Trang chủ" />
-            <Link href="/detail" title="Phòng trọ" />
+            <Link href="/room-social-network/room-list" title="Phòng trọ" />
             <Link href="/about" title="Giới thiệu" />
             <Link href="/works" title="Liên hệ" />
 <<<<<<< HEAD
@@ -86,21 +88,29 @@ function MainLayout() {
         <Modal title="Đăng tin" visible={isModalVisibleAddRoom} onOk={handleOkAddRoom} onCancel={handleCancelAddRoom} footer={null}>
             <RoomAdd />
         </Modal>
-        <Button onClick={showModalAddRoom} type="primary" style={{ background: "green", borderColor: "green"}}> + Đăng tin</Button>
+        {
+          role==null ? 
+          <Popover content={<span>Bạn cần đăng nhập để đăng tin</span>} title="Thông báo" trigger="click">
+          <Button type="primary" style={{ background: "green", borderColor: "green"}}> + Đăng tin</Button>
+          </Popover> :
+          (
+          role==2 ? 
+          <Popover content={<span>Bạn cần có quyền chủ trọ để đăng tin</span>} title="Thông báo" trigger="click">
+              <Button type="primary" style={{ background: "green", borderColor: "green"}}> + Đăng tin</Button>
+          </Popover> :   
+          <Button onClick={showModalAddRoom} type="primary" style={{ background: "green", borderColor: "green"}}> + Đăng tin</Button>
+          )
+        }
         {localStorage.getItem("accessToken") ? 
           (
             
               <Popover
                           content={
                               <>
-                                <Button>Quản lý tin đăng</Button>
-                                <br />
+                                {localStorage.getItem("role")!=2 && <><Button><Lik to='room-management/'>Quản lý tin đăng</Lik></Button> <br /></>}
                                 <Button><Lik to={`profile/${localStorage.getItem("id")}`} >Hồ sơ cá nhân </Lik></Button>
                                 <br />                               
                                 <Button type='button' onClick={() => logout()}>Đăng xuất</Button>
-                                {/* <div>
-                                    <img src={localStorage.getItem("avatarUrl")} style={{width: 200, height: 200}}  />
-                                </div> */}
                               </>
                           } 
                           title="Profile" 

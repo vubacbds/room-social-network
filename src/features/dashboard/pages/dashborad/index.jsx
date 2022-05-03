@@ -12,7 +12,7 @@ const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 function AdminPage() {
-  const dataSource = useContext(DataContext).dataChoDuyet
+  const dataRoomWait = useContext(DataContext).dataRoomWait
   const {id} = useParams();
   const [crumb, setCrumb] = useState({})
   const navigate = useNavigate()
@@ -32,8 +32,8 @@ function AdminPage() {
                   </span>
                   &ensp; &nbsp;
                   <span className="avatar-item">
-                    <Popover content={<Link to="post-management">Có {dataSource.length} tin đăng mới đang chờ duyệt</Link>} title="Thông báo" trigger="click">
-                      <Badge count={dataSource.length}>
+                    <Popover content={<Link to="post-management">Có {dataRoomWait.length} tin đăng mới đang chờ duyệt</Link>} title="Thông báo" trigger="click">
+                      <Badge count={dataRoomWait.length}>
                           <a><Avatar shape="square" icon={<BellOutlined />} style={{background: '#0f4d92', fontSize: 24}}/></a>
                       </Badge>
                     </Popover>
