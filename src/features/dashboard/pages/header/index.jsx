@@ -4,8 +4,8 @@ import '../../index.scss';
 import { useContext } from 'react';
 import {DataContext} from '../../../../utils/DataContext'
 
-function Home() {
-    const dataSourcePost = useContext(DataContext).dataSource
+function Home() { 
+    const dataRoom = useContext(DataContext).dataRoom
     const dataSourceUser = useContext(DataContext).dataSourceUser
     return (
         <>
@@ -22,7 +22,7 @@ function Home() {
             <Row style={{height: 200, fontSize: 24, color: '#fff'}}>
                 <Col span={12} style={{background: '#94037c', padding: 20, borderRight: '#69e1ff 3px solid', borderTop: '#69e1ff 3px solid'}}>
                     <BarChartOutlined /> &nbsp;
-                    <span>Có tổng {dataSourcePost.length} tin đăng</span>
+                    <span>Có tổng {dataRoom.length} tin đăng</span>
                 </Col>
                 <Col span={12} style={{background: '#777769', padding: 20, borderTop: '#69e1ff 3px solid'}}>
                     <BarChartOutlined /> &nbsp;

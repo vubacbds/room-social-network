@@ -4,11 +4,16 @@ import Search from 'antd/lib/transfer/search';
 import { useEffect, useState, useContext } from 'react';
 import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import { DataContext } from '../../../../utils/DataContext';
+import roomService from "../../../../services/roomService";
+import { BiMap } from "react-icons/bi";
+
 
 function PostWait() {
-    const dataSource = useContext(DataContext).dataChoDuyet
-    const dataSourceTotal = useContext(DataContext).dataSource
-    const setDataSource = useContext(DataContext).setDataSource
+    const dataRoomWait = useContext(DataContext).dataRoomWait
+    const setDataRoomWait = useContext(DataContext).setDataRoomWait
+    const setDataRoomPosted = useContext(DataContext).setDataRoomPosted
+    // const dataRoom = useContext(DataContext).dataRoom
+    // const setDataSource = useContext(DataContext).setDataSource
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
@@ -113,43 +118,39 @@ function PostWait() {
     //Xử lý tìm kiếm (đóng)
     const columns = [
         {
-          title: 'ID',
-          dataIndex: 'id',
-          key: 'id',
-          sorter: (a, b) => a.id - b.id,
-          sortDirections: ['descend'],
-          ...getColumnSearchProps('id')
+          title: 'Mô tả',
+          // dataIndex: 'descriptionRoom',
+          // key: 'descriptionRoom',
+          // sorter: (a, b) => a.id - b.id,
+          // sortDirections: ['descend'],
+          // ...getColumnSearchProps('id')
+          render: (record) => `${record.descriptionRoom?.slice(0, 30)}...`
         },
         {
-          title: 'Tiêu đề',
-          dataIndex: 'tieude',
-          key: 'tieude'
+          title: 'Địa chỉ',
+          // dataIndex: 'price',
+          // key: 'price',
+          // ...getColumnSearchProps('price')
+          render: (record) => record.provinceEntity?.provinceName,
         },
         Table.EXPAND_COLUMN,
         {
-          title: 'Địa chỉ',
-          dataIndex: 'diachi',
-          key: 'diachi',
-          ...getColumnSearchProps('diachi')
+          title: 'Diện tích',
+          // dataIndex: 'capacity',
+          key: 'capacity',
+          render: (record) => `${record.capacity} m2`
         },
         {
           title: 'Giá',
-          dataIndex: 'gia',
-          key: 'gia',
-          sorter: (a, b) => a.gia - b.gia,
+          dataIndex: 'price',
+          key: 'price',
+          sorter: (a, b) => a.price - b.price,
           sortDirections: ['descend','ascend'],
-          ...getColumnSearchProps('gia')
-        },
-        {
-          title: 'Đơn vị',
-          dataIndex: 'donvi',
-          key: 'donvi'
+          ...getColumnSearchProps('price')
         },
         {
           title: 'Người đăng',
-          dataIndex: 'nguoidang',
-          key: 'nguoidang',
-          ...getColumnSearchProps('nguoidang')
+          render: (record) => record.userEntity?.username
         },
      {
         title: 'Ảnh',
@@ -159,18 +160,25 @@ function PostWait() {
                 <Popover 
                     content={
                         <Carousel autoplay autoplaySpeed={1000} style={{width: 200, height: 200}} >
-                            <div>
-                                <img src={record.img1} style={{width: '100%', height: 200, contentStyle}}  />
+                            {record.documentEntities && record.documentEntities.map((e) => {
+                                    return(
+                                      <div>
+                                        <img src={e?.nameUrl } style={{width: '100%', height: 200, contentStyle}} />
+                                      </div>
+                                    )
+                            })}
+                            {/* <div>
+                                    <img src={record.documentEntities && record.documentEntities[0]?.nameUrl } style={{width: '100%', height: 200, contentStyle}}  />
                             </div>
                             <div>
-                                <img src={record.img2} style={{width: '100%', height: 200, contentStyle}}/>
-                            </div>
-                            <div>
+                                    <img src={"https://noithattrevietnam.com/uploaded/Kien-thuc-nha-dep/hinh-anh-nha-2-tang-mai-thai/1-hinh-anh-nha-2-tang-mai-thai.jpg"} style={{width: '100%', height: 200, contentStyle}}/>
+                            </div> */}
+                            {/* <div>
                                 <img src={record.img3} style={{width: '100%', height: 200, contentStyle}}/>
                             </div>
                             <div>
                                 <img src={record.img4} style={{width: '100%', height: 200, contentStyle}}/>
-                            </div>
+                            </div> */}
                         </Carousel>
                     } 
                     title="Ảnh phòng trọ" 
@@ -189,29 +197,74 @@ function PostWait() {
     
     const [pageSize, setPageSize] = useState(10)
     const [isCheckedAll, setIsCheckedAll] = useState({all: false, part: false, amount: 0})
+
     const del = () => {
-      const newData = [...dataSourceTotal];
+      const newData = [...dataRoomWait];
       selectedRowKeys.forEach( id => {  
-        const index = newData.findIndex((item) => id === item.id);
+        const index = newData.findIndex((item) => id === item.roomId);
         newData.splice(index, 1);
         
+        //Xóa trong CSDL
+        // roomService.deleteroom(id)
+        //   .then(function (response) {
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   })
+        // Get room trong CSDL
+        roomService.getroomid(id)
+          .then(function (response) {
+              // console.log(response)
+              const roomUpdate = {...response, "statusRoom": 2}
+              // Update trong CSDL
+              roomService.updateroom(id, roomUpdate)
+              .then(function (response) {
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
       })
-      setDataSource(newData)
+      setDataRoomWait(newData)
     }
     const checkOk = () => {
-      const newData = [...dataSourceTotal];
+      const newData = [...dataRoomWait];
+
       selectedRowKeys.forEach( id => {  
-        const index = newData.findIndex((item) => id === item.id);
-        const tin = newData[index];
-        newData.splice(index, 1, { ...tin, trangthai: 1 });
+        const index = newData.findIndex((item) => id === item.roomId);
+        const tin = {...newData[index], "statusRoom": 1 };
+        newData.splice(index, 1);
+        setDataRoomPosted(pre => [...pre,tin])
+
+        // Get room trong CSDL
+        roomService.getroomid(id)
+          .then(function (response) {
+              // console.log(response)
+              const roomUpdate = {...response, "statusRoom": 1}
+              // Update trong CSDL
+              roomService.updateroom(id, roomUpdate)
+              .then(function (response) {
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+        
       })
-      setDataSource(newData)
+      setDataRoomWait(newData)
+      
     }
     return (
         <>
             <Row>
                     <Col span={6} >
-                        <h4 style={{ fontWeight: 'inherit', fontStyle: 'italic' }}>Có {dataSource.length} tin đang chờ duyệt</h4>
+                        <h4 style={{ fontWeight: 'inherit', fontStyle: 'italic' }}>Có {dataRoomWait.length} tin đang chờ duyệt</h4>
                     </Col>
 
                     <Col span={12}></Col>
@@ -239,13 +292,20 @@ function PostWait() {
                         pageSizeOptions: [10,20,40,100],
                         showSizeChanger: true
                     }}
-                    rowKey={record => record.id}
+                    rowKey={record => record.roomId}
                     columns={columns}
                     rowSelection={rowSelection}
                     expandable={{
-                    expandedRowRender: record => <p style={{ margin: 0 }}>{record.mota}</p>
+                      expandedRowRender: record => {
+                        return(
+                          <>
+                            <p style={{ margin: 0 }}>{record.descriptionRoom}</p><br/>
+                            <p style={{fontSize: 12}}><BiMap /> {`${record.street} - ${record.wardId.wardName} - ${record.districtId.districtName} - ${record.provinceEntity?.provinceName}`}</p>
+                          </>
+                        )                
+                      },
                     }}
-                    dataSource={dataSource}
+                    dataSource={dataRoomWait}
                     style={{ marginTop: 6 }}
                     // loading={loading}
                 />

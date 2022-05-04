@@ -1,18 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { Row, Col, Button } from 'antd';
+import { Row, Col, Button, Pagination } from 'antd';
 import { Card } from 'antd';
 import { BiMap, BiDollar, BiStar, BiTrip } from "react-icons/bi";
 
 const { Meta } = Card;
-function RoomsInfo(props) {
-  
-  var items = props.data;
-  var a = props?.itemsAmount
+function AllRoom(props) {
+    var items = props.data;
+  //Phân trang
+    const objPage = {
+        totalPage: items?.length,
+        current: 1,
+        minIndex: 0,
+        maxIndex: 12,
+        size: 12
+    }
+    const [pages, setPages] = useState(objPage)
+    //Xử lý khi chọn trang
+    const handleChange = (page, size) => {
+        setPages({
+        ...pages,
+        current: page,
+        minIndex: (page - 1) * size,
+        maxIndex: page * size,
+        size: size
+        });
+    };
+
+    console.log(items)
   const roomsInfo = items.map((item, index) => {
-    return index < a && (
+    return (index >= pages.minIndex && index < pages.maxIndex) && (
       <Col span={8} key={index} >
-        <Link to={`detail/${item.roomId}`} >
+        <Link to={`/room-social-network/detail/${item.roomId}`} >
           <Card
             hoverable
             cover={<img alt="Ảnh phòng trọ" height={250} src={(item.documentEntities && item.documentEntities !== []) ? item.documentEntities[0]?.nameUrl : "https://noithattrevietnam.com/uploaded/Kien-thuc-nha-dep/hinh-anh-nha-2-tang-mai-thai/1-hinh-anh-nha-2-tang-mai-thai.jpg"} />}
@@ -31,7 +50,7 @@ function RoomsInfo(props) {
       </Col>
     )
   });
-  return (
+  return items && (
     <div className="container-fluid">
       <div className="titleHolder">
         <h2>{props.title}</h2>
@@ -40,16 +59,20 @@ function RoomsInfo(props) {
       <Row gutter={[16, 16]} >
         {roomsInfo}
       </Row>
-      {a==6 && 
-        <Row>
-          <Col span={24} style={{textAlign: 'center', marginTop: 50}}>
-            <Link to="room-list"><Button type="primary" >------ Xem tất cả ------</Button></Link>
-          </Col>
-        </Row>
-      }
+      
       <hr style={{border: 2, color: "#BCADB0"}} />
+      <Pagination
+                pageSize={pages.size}
+                current={pages.current}
+                total={items?.length}
+                onChange={handleChange}
+                style={{ bottom: "0px", textAlign: 'center', marginTop: 50 }}
+                showSizeChanger={true}
+                pageSizeOptions={[12,24,48]}
+                // onShowSizeChange={handleShowSizeChange}
+        />
     </div>
   );
 }
 
-export default RoomsInfo;
+export default AllRoom;
