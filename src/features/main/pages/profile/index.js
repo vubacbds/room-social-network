@@ -136,7 +136,7 @@ function Profile() {
           "birthDate": moment(dataSourceUserID.birthDate),
           ...newd
         };
-        
+    localStorage.setItem("role",dataSourceUserID.role)
       userService.update(dataSourceUserID.id, data)
     .then(function (response) {
       // console.log(response.data);

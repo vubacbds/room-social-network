@@ -23,16 +23,22 @@ function  RoomProvince (props){
             return (<>
                         <Col span={4} >  
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <Image title='Hà Nội' style={{height:260}} 
                             src="https://live.staticflickr.com/3333/3175831395_7361b4851c_n.jpg" />
                             </Col>  
 =======
+=======
+>>>>>>> e3b5a79a7bb6fcfe462ba91e2fc99d283d79f404
                             <Link to="room-list/2">
                                 <Image title='Hà Nội' style={{height:260}} src="https://th.bing.com/th/id/R.3a0fd3d194f6d47851604ba6bf83e031?rik=Nj3kmaDB7Q3rmg&pid=ImgRaw&r=0" />
                                 <h4 class="text" style={sty}>Hà Nội</h4>
                             </Link>
                         </Col>  
+<<<<<<< HEAD
 >>>>>>> c793db0a1170ed5d066a83f93b21099168a60b0f
+=======
+>>>>>>> e3b5a79a7bb6fcfe462ba91e2fc99d283d79f404
                         <Col span={4} >
                             <Row >
                                 <Link to="room-list/14">

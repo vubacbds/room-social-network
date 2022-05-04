@@ -12,10 +12,13 @@ import Register from "../../components/register";
 import Regist from "../../components/regist";
 import Profile from "./pages/profile";
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 >>>>>>> eda6aaeca013083918e3ff82e1d07db60be49696
 =======
 >>>>>>> c793db0a1170ed5d066a83f93b21099168a60b0f
+=======
+>>>>>>> e3b5a79a7bb6fcfe462ba91e2fc99d283d79f404
 import { Layout } from 'antd';
 import RoomManagement from "./pages/room-management";
 import RoomList from "./pages/room-list";
